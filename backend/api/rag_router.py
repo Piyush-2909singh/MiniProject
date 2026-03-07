@@ -22,7 +22,7 @@ class AskResponse(BaseModel):
     sources: List[SourceInfo]
 
 @router.post("/ask", response_model=AskResponse)
-def ask_question(request: AskRequest, authorization: str | None = Header(None), x_api_key: str | None = Header(None)):
+def ask_question(request: AskRequest, current_user: models.User = Depends(security.get_current_active_user), x_api_key: str | None = Header(None)):
     # 1. Retrieve context
     results = engine.query_db(request.question, top_k=3)
     
