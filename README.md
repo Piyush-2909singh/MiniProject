@@ -1,191 +1,357 @@
-# 🤖 Enterprise Knowledge AI — Document Question Answering System
+# 🚀 Enterprise Knowledge AI  
+### Intelligent Document Question Answering System
 
-This project is a simple AI-inspired document assistant that allows users to upload a PDF document and ask questions related to the document.
+<p align="center">
 
-Instead of manually searching through large documents, the system extracts the text from the uploaded file and returns the most relevant answer based on the user’s query.
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)  
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black?style=for-the-badge&logo=flask)  
+![AI](https://img.shields.io/badge/AI-Document%20QA-green?style=for-the-badge)  
+![Database](https://img.shields.io/badge/Database-SQLite-blue?style=for-the-badge)  
+![License](https://img.shields.io/badge/License-MIT-orange?style=for-the-badge)
 
-The goal of this project is to demonstrate a basic document knowledge retrieval system using Python and Flask.
-
----
-
-## 📌 About This Project
-
-• Built as a learning project for backend development  
-• Demonstrates document-based question answering  
-• Works with uploaded PDF files  
-• Includes user authentication system  
-• Simple AI-style interface for interaction  
+</p>
 
 ---
 
-## 🚀 Key Features
+# 📌 Overview
 
-✔ User Signup and Login System  
-✔ Secure Authentication using Flask-Login  
-✔ Upload PDF Documents  
-✔ Automatic Text Extraction from PDF  
-✔ Ask Questions from Uploaded Document  
-✔ Retrieve Relevant Answers from Document Text  
-✔ Simple Dashboard Interface  
+**Enterprise Knowledge AI** is a lightweight **AI-inspired document assistant** that allows users to:
 
----
+• Upload PDF documents  
+• Ask questions from the document  
+• Retrieve the most relevant answer instantly  
 
-## 🧩 System Components
+Instead of manually reading large documents, the system **extracts knowledge and returns answers automatically**.
 
-Authentication Module  
-Handles user signup, login and logout. Only authenticated users can access the system.
-
-Document Upload Module  
-Allows users to upload PDF documents which are stored in the uploads folder.
-
-Text Extraction Module  
-Extracts text from uploaded PDF documents using PyMuPDF.
-
-Question Processing Module  
-Processes the question entered by the user.
-
-Answer Retrieval Module  
-Searches the document text and returns the most relevant sentence.
+This project demonstrates the **core idea behind enterprise knowledge systems, AI assistants, and Retrieval-Augmented Generation (RAG)**.
 
 ---
 
-## 🛠️ Technologies Used
+# 🎯 Project Motivation
 
-Backend  
-Python  
-Flask  
-Flask-Login  
-Flask-SQLAlchemy  
+Organizations store large amounts of knowledge inside:
 
-Document Processing  
-PyMuPDF (fitz)
+- PDFs  
+- Reports  
+- Documentation  
+- Research papers  
+- Internal knowledge bases  
 
-Frontend  
-HTML  
-CSS  
+Finding information manually can be **slow and inefficient**.
 
-Database  
-SQLite
+This project solves the problem by enabling **AI-style interaction with documents**.
 
 ---
 
-## ⚙️ System Workflow
+# ✨ Features
 
-User Signup  
-↓  
-User Login  
-↓  
-Upload PDF Document  
-↓  
-Extract Text from PDF  
-↓  
-User Asks Question  
-↓  
-System Searches Document Text  
-↓  
-Relevant Answer Returned
+## 🔐 Authentication System
+
+- User Signup  
+- Secure Login  
+- Session Management using **Flask-Login**  
+- Access control for authorized users  
 
 ---
 
-## 📂 Project Structure
+## 📄 Document Upload & Processing
 
+Users can upload **PDF documents**, and the system will:
+
+- Extract text automatically  
+- Store the document securely  
+- Prepare the content for querying  
+
+---
+
+## 🤖 Question Answering System
+
+Users can ask questions like:
+
+> "What is the objective of the report?"
+
+The system will:
+
+1. Analyze the question  
+2. Search the document text  
+3. Return the most relevant answer  
+
+---
+
+## 🖥️ Simple Dashboard
+
+The system includes a simple interface where users can:
+
+- Upload documents  
+- Ask questions  
+- View answers instantly  
+
+---
+
+# 🧠 How the System Works
+
+```
+User Signup
+↓
+User Login
+↓
+Upload PDF
+↓
+Text Extraction
+↓
+User Asks Question
+↓
+Search Document Text
+↓
+Return Relevant Answer
+```
+
+This workflow shows how the system processes documents and retrieves answers for the user.
+
+---
+
+# 🏗️ System Architecture
+
+```
+User Interface (HTML/CSS)
+        │
+        ▼
+Flask Web Server
+        │
+        ▼
+Authentication System
+        │
+        ▼
+Document Upload Module
+        │
+        ▼
+PDF Text Extraction
+        │
+        ▼
+Question Processing Engine
+        │
+        ▼
+Answer Retrieval System
+        │
+        ▼
+Response to User
+```
+
+---
+
+# 🧰 Tech Stack
+
+## Backend
+
+- Python  
+- Flask  
+- Flask-Login  
+- Flask-SQLAlchemy  
+
+---
+
+## Document Processing
+
+- PyMuPDF (fitz)
+
+Used for extracting text from PDF documents.
+
+---
+
+## Frontend
+
+- HTML  
+- CSS  
+
+---
+
+## Database
+
+- SQLite
+
+Stores user authentication data.
+
+---
+
+# 📂 Project Structure
+
+```
 enterprise_knowledge
-
-app.py  
-rag.py  
-requirements.txt  
-database.db  
-
-templates  
-login.html  
-signup.html  
-index.html  
-
-uploads  
+│
+├── app.py
+├── rag.py
+├── requirements.txt
+├── database.db
+│
+├── templates
+│   ├── login.html
+│   ├── signup.html
+│   └── index.html
+│
+└── uploads
+```
 
 ---
 
-## 🧪 How to Run the Project
+# ⚙️ Installation
 
-Step 1 — Open terminal inside the project folder
+## 1️⃣ Clone the Repository
 
-cd enterprise_knowledge
+```bash
+git clone https://github.com/yourusername/enterprise-knowledge-ai.git
+cd enterprise-knowledge-ai
+```
 
-Step 2 — Create virtual environment
+---
 
+## 2️⃣ Create Virtual Environment
+
+```bash
 python -m venv venv
+```
 
-Step 3 — Activate virtual environment
+---
 
-Windows
+## 3️⃣ Activate Environment
 
+### Windows
+
+```bash
 venv\Scripts\activate
+```
 
-Step 4 — Install required libraries
+### Mac / Linux
 
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 4️⃣ Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-Step 5 — Run the application
+---
 
+## 5️⃣ Run the Application
+
+```bash
 python app.py
+```
 
-Step 6 — Open in browser
+---
 
+## 6️⃣ Open in Browser
+
+```
 http://127.0.0.1:5000
+```
 
 ---
 
-## 📊 Example Usage
+# 🧪 Example Usage
 
-1. Create an account  
-2. Login to the system  
-3. Upload a PDF document  
-4. Ask a question related to the document  
-5. The system retrieves the most relevant answer  
+### Step 1  
+Create an account
 
----
+### Step 2  
+Login to the system
 
-## ⚠️ Current Limitations
+### Step 3  
+Upload a PDF document
 
-Currently the system uses keyword-based search to retrieve answers. If the question wording is very different from the document text, the accuracy of the answer may decrease.
+### Step 4  
+Ask a question
 
----
+Example:
 
-## ⚡ Comparison with Typical Document Search Tools
+```
+Question:
+What is the goal of this report?
 
-| Feature | This Project | Typical Document Search Tools |
-|--------|---------------|--------------------------------|
-| Document Interaction | Users can ask questions directly from documents | Mostly keyword search inside files |
-| Setup | Lightweight and runs locally | Often requires heavy enterprise systems |
-| Authentication | Includes user login & access control | Usually not included in basic tools |
-| Learning Value | Fully customizable and easy to understand | Closed systems with limited modification |
-| AI Expansion | Can be upgraded with AI APIs and semantic search | Many tools are fixed and harder to extend |
-
-## 🔮 Future Improvements
-
-• Integrate AI APIs such as OpenAI or Gemini  
-• Implement semantic search using embeddings  
-• Support multiple document uploads  
-• Add chat-style interface for asking questions  
-• Improve answer ranking using RAG techniques  
-• Build a knowledge base for enterprise use  
+Answer:
+The goal of the report is to analyze the market performance...
+```
 
 ---
 
-## 🎯 Purpose of This Project
+# ⚠️ Current Limitations
 
-• Practice backend development using Flask  
-• Understand document processing with Python  
-• Explore the concept of document-based knowledge retrieval  
-• Build a simple AI-style information retrieval system  
-
----
-
-## 👩‍💻 Author
-
-B.Tech AIML Student  
-Interested in AI, backend development and intelligent systems
+- Uses **keyword-based search**  
+- No semantic understanding yet  
+- Works best when question words match document words  
 
 ---
 
-⭐ This project represents a learning step towards building intelligent document assistants.
+# 🔮 Future Improvements
+
+This project can evolve into a **full enterprise AI system**.
+
+Planned upgrades:
+
+• Integrate **OpenAI / Gemini APIs**  
+• Implement **semantic search using embeddings**  
+• Add **vector database (FAISS / Chroma)**  
+• Support **multiple documents**  
+• Create **chat-style AI interface**  
+• Build full **RAG pipeline**  
+• Deploy on **cloud infrastructure**
+
+---
+
+# 📊 Comparison with Traditional Search
+
+| Feature | Enterprise Knowledge AI | Traditional Search |
+|------|-------------------------|--------------------|
+| Document Interaction | Ask questions directly | Keyword search |
+| Setup | Lightweight | Heavy enterprise systems |
+| Authentication | Built-in login system | Often missing |
+| Customization | Fully customizable | Limited |
+| AI Expansion | Easy to extend | Harder |
+
+---
+
+# 🎓 Learning Outcomes
+
+This project demonstrates:
+
+- Backend development with **Flask**
+- Document processing using **Python**
+- Building **AI-style knowledge assistants**
+- Basic **information retrieval systems**
+
+---
+
+# 👨‍💻 Author
+
+**B.Tech AIML Student**
+
+Interested in:
+
+- Artificial Intelligence  
+- Backend Development  
+- Intelligent Systems  
+- AI Knowledge Platforms  
+
+---
+
+# ⭐ Support the Project
+
+If you like this project:
+
+⭐ Star the repository  
+🍴 Fork the project  
+🚀 Contribute improvements  
+
+---
+
+# 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+💡 *This project represents a foundational step toward building enterprise-scale AI knowledge assistants.*
