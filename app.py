@@ -8,6 +8,25 @@ from rag import read_pdf
 app = Flask(__name__)
 
 
+app.config["SECRET_KEY"] = "secret123"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+
+UPLOAD_FOLDER="uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+db=SQLAlchemy(app)
+
+login_manager=LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+pdf_text=""
+
+class User(UserMixin, db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    username=db.Column(db.String(150),nullable=False)
+    password=db.Column(db.String(150),nullable=False)
+
 
 @app.route('/')     # yahan se redirect kr dega to login page
 def start():
@@ -67,4 +86,44 @@ def upload():
 
 
 
+@app.route("/ask", methods=["POST"])
+@login_required
+def ask():
+    question=request.form["question"].lower()
+    sentences=pdf_text.split(".")
+
+    best_sentence=""
+    best_score=0
+
+    for sentence in sentences:
+        score=0
+
+        for word in question.split():
+            if word in sentence.lower():
+                score+=1
+        
+        if score > best_score:
+            best_score=score
+            best_sentence=sentence
+
+    if best_sentence:
+        return "Answer: " + best_sentence
+    
+    return "Sorry, I couldn't find an answer."
+
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/login")
+
+
+if __name__ == "__main__":
+
+    with app.app_context():
+        db.create_all()
+
+    app.run(debug=True)
 
