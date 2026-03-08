@@ -151,6 +151,16 @@ Currently the system uses keyword-based search to retrieve answers. If the quest
 
 ---
 
+## ⚡ Comparison with Typical Document Search Tools
+
+| Feature | This Project | Typical Document Search Tools |
+|--------|---------------|--------------------------------|
+| Document Interaction | Users can ask questions directly from documents | Mostly keyword search inside files |
+| Setup | Lightweight and runs locally | Often requires heavy enterprise systems |
+| Authentication | Includes user login & access control | Usually not included in basic tools |
+| Learning Value | Fully customizable and easy to understand | Closed systems with limited modification |
+| AI Expansion | Can be upgraded with AI APIs and semantic search | Many tools are fixed and harder to extend |
+
 ## 🔮 Future Improvements
 
 • Integrate AI APIs such as OpenAI or Gemini  
