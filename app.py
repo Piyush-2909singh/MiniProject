@@ -28,6 +28,11 @@ class User(UserMixin, db.Model):
     password=db.Column(db.String(150),nullable=False)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 @app.route('/')     # yahan se redirect kr dega to login page
 def start():
     return redirect("/login")
@@ -76,7 +81,9 @@ def home():
 def upload():
     global pdf_text
 
-    file=os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    file=request.files["pdf"]
+
+    path=os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
 
     file.save(path)
 
