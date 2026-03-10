@@ -1,1 +1,0 @@
-Enterprise Knowledge Intelligence Platform using RAG
