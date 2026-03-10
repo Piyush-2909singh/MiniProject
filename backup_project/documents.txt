@@ -1,9 +1,0 @@
-Employees are allowed 20 paid leaves every year.
-
-IT support email is support@company.com.
-
-Employees must submit weekly reports every Friday.
-
-Company working hours are 9 AM to 6 PM.
-
-Employees should follow company security policies while accessing internal systems.
