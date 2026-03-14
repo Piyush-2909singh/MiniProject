@@ -1,36 +1,63 @@
 from flask import Flask, redirect, render_template, request, url_for
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import os
-from rag import read_pdf
+import sqlite3
 
 
 app = Flask(__name__)
+app.secret_key = "secret123"
 
-
-app.config["SECRET_KEY"] = "secret123"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-
-UPLOAD_FOLDER="uploads"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-db=SQLAlchemy(app)
 
 login_manager=LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"
 
-pdf_text=""
 
-class User(UserMixin, db.Model):
-    id=db.Column(db.Integer,primary_key=True)
-    username=db.Column(db.String(150),nullable=False)
-    password=db.Column(db.String(150),nullable=False)
+os.makedirs("uploads", exist_ok=True)
+
+
+def init_db():
+    conn=sqlite3.connect("users.db")
+    c=conn.cursor()
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+    init_db()
+
+class User(UserMixin):
+
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+
+
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    row = c.fetchone()
+
+    conn.close()
+
+    if row:
+        return User(row[0], row[1], row[2])
+
+    return None
 
 
 @app.route('/')     # yahan se redirect kr dega to login page
