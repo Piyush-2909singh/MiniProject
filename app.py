@@ -171,6 +171,13 @@ def logout():
     return redirect("/")
 
 
+@app.route("/chat")
+@login_required
+def chat():
+
+    return render_template("chat.html")
+
+
 if __name__ == "__main__":
 
     with app.app_context():
