@@ -1,5 +1,5 @@
-from flask import Flask, redirect, render_template, request, url_for
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask import Flask, render_template, request, redirect, jsonify
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 import os
 import sqlite3
 
@@ -120,11 +120,6 @@ def signup():
 
 
 
-@app.route('/home')
-@login_required
-def home():
-    return render_template("index.html")
-
 
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
@@ -178,10 +173,9 @@ def chat():
     return render_template("chat.html")
 
 
+
+
+
 if __name__ == "__main__":
-
-    with app.app_context():
-        db.create_all()
-
     app.run(debug=True)
 
