@@ -1,168 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocShashtra_AI</title>
 
+<title>Enterprise Knowledge AI</title>
 
+<style>
 
+body{
+    font-family:"Segoe UI",sans-serif;
+    background:#0f172a;
+    margin:0;
+    color:white;
+}
 
-    <style>
-        body{
-            font-family:"Segoe UI", sans-serif;
-            background:#0f172a;
-            margin:0;
-            color:white;
+/* Header */
 
-        }
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 40px;
+    background:#020617;
+    border-bottom:1px solid #1e293b;
+}
 
+.header h1{
+    color:#38bdf8;
+    margin:0;
+}
 
+.logout-btn{
+    background:#22c55e;
+    border:none;
+    padding:8px 16px;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
+}
 
+/* Main layout */
 
-        .header{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:18px 40px;
-            background:#020617;
-            border-bottom:1px solid #1e293b;
-        }
+.container{
+    width:70%;
+    margin:60px auto;
+}
 
+/* AI cards */
 
-        .header h1{
-            color:#38bdf8;
-            margin:0;
-        
-        }
+.card{
+    background:#020617;
+    padding:30px;
+    border-radius:10px;
+    margin-bottom:25px;
+    border:1px solid #1e293b;
+}
 
+/* Titles */
 
-        .logout-btn{
-            background:#22c55e;
-            border:none;
-            padding:8px 16px;
-            border-radius:6px;
-            color:white;
+.card h2{
+    margin-top:0;
+    color:#38bdf8;
+}
 
-        }
+/* Inputs */
 
+input[type="file"],
+input[type="text"]{
+    width:80%;
+    padding:10px;
+    margin-top:15px;
+    border-radius:6px;
+    border:1px solid #334155;
+    background:#0f172a;
+    color:white;
+}
 
+/* Buttons */
 
-        .container{
-            width:70%;
-            margin:60px auto;
-        }
+button{
+    margin-top:18px;
+    padding:10px 22px;
+    border:none;
+    background:#22c55e;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+}
 
+button:hover{
+    background:#16a34a;
+}
 
+/* Answer area */
 
-        .card{
-            background:#020617;
-            padding:30px;
-            border-radius:10px;
-            margin-bottom:25px;
-            border:1px solid #1e293b;
+.answer-box{
+    margin-top:20px;
+    padding:15px;
+    background:#0f172a;
+    border-left:4px solid #22c55e;
+}
 
-        }
+</style>
 
-
-        .card h2{
-            margin-top:0;
-            color:#38bdf8;
-
-        }
-
-
-        input[type="file"],
-        input[type="text"]{
-            width:80%;
-            padding:10px;
-            margin-top:15px;
-            border-radius:6px;
-            border:px solid #334155;
-            background:#0f172a;
-            color:white;
-
-
-        }
-
-
-
-        button{
-            margin-top:18px;
-            padding:10px 22px;
-            border:none;
-            background:#22c55e;
-            color:white;
-            border-radius:6px;
-            cursor:pointer;
-
-
-        }
-
-
-        button:hover{
-            background:#16a34a;
-        }
-
-
-
-        .answer-box{
-            margin-top:20px;
-            padding:15px;
-            background:#0f172a;
-            border-left:4px solid #22c55e;
-        }
-
-
-
-
-
-
-    </style>
-    
 </head>
+
 <body>
-    <div class="header">
-        <h1>Welcome to DocShashtra_AI</h1>
-        <a href="/logout">Logout</a>
-            <button class="logout-btn">Logout</button>
-        </a>
-    </div>
 
-    <div class="container">
+<div class="header">
 
-        <div class="card">
-            <h2>Upload your document</h2>
-            
-            <form action="/upload" method="post" enctype="multipart/form-data">
-            
-                <input type="file" name="pdf">
-            <br>
+<h1>Enterprise Knowledge AI</h1>
 
-            <button type="submit">Upload PDF</button>
+<a href="/logout">
+<button class="logout-btn">Logout</button>
+</a>
 
-            
+</div>
 
-        </form>
-        </div>
+<div class="container">
 
+<!-- Upload Section -->
 
+<div class="card">
 
-        <div class="card">
-            <h2>Ask a question about your document</h2>
-            <form action="/ask" method="post">
-                <input type="text" name="question" required placeholder="Ask something from the document">
-                <br>
-                <button type="submit">Ask</button>
-            </form>
+<h2>Upload Knowledge Document</h2>
 
-            <div class="answer-box">
-                <p>Answer will be displayed here...</p>
-            </div>
-        
-        </div>
-    </div>
+<form action="/upload" method="post" enctype="multipart/form-data">
 
+<input type="file" name="pdf">
+
+<br>
+
+<button type="submit">Upload PDF</button>
+
+</form>
+
+</div>
+
+<!-- Ask Question Section -->
+
+<div class="card">
+
+<h2>Ask Question From Document</h2>
+
+<form action="/ask" method="post">
+
+<input type="text" name="question" placeholder="Ask something from the document...">
+
+<br>
+
+<button type="submit">Generate Answer</button>
+
+</form>
+
+<div class="answer-box">
+
+<p>AI generated answer will appear here.</p>
+
+</div>
+
+</div>
+
+</div>
 
 </body>
+
 </html>
