@@ -60,23 +60,38 @@ def load_user(user_id):
     return None
 
 
-@app.route('/')     # yahan se redirect kr dega to login page
+
+
+@app.route('/')     
 def start():
-    return redirect("/login")
+    if current_user.is_authenticated:
+        return render_template("home.html", username=current_user.username)
+
+    return render_template("home.html", username=None)
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method=="POST":
+    if request.method == "POST":
 
-        username=request.form["username"]
-        password=request.form["password"]
+        username = request.form["username"]
+        password = request.form["password"]
 
-        user= User.query.filter_by(username=username,password=password).first()
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
 
-        if user:
+        c.execute(
+            "SELECT * FROM users WHERE username=? AND password=?",
+            (username,password)
+        )
+
+        row = c.fetchone()
+        conn.close()
+
+        if row:
+            user = User(row[0], row[1], row[2])
             login_user(user)
-            return redirect("/home")
+            return redirect("/")
 
     return render_template("login.html")
 
