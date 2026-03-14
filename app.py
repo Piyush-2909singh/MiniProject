@@ -99,12 +99,20 @@ def login():
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        username=request.form["username"]
-        password=request.form["password"]
 
-        new_user= User(username=username, password=password)
-        db.session.add(new_user)
-        db.session.commit()
+        username = request.form["username"]
+        password = request.form["password"]
+
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
+
+        c.execute(
+            "INSERT INTO users(username,password) VALUES(?,?)",
+            (username,password)
+        )
+
+        conn.commit()
+        conn.close()
 
         return redirect("/login")
 
@@ -121,52 +129,39 @@ def home():
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
 def upload():
-    global pdf_text
 
-    file=request.files["pdf"]
+    file = request.files["file"]
 
-    path=os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    if file:
+        file.save("uploads/" + file.filename)
 
-    file.save(path)
-
-    pdf_text=read_pdf(path)
-
-    return "PDF uploaded successfully"
+    return redirect("/admin")
 
 
 
 @app.route("/ask", methods=["POST"])
 @login_required
 def ask():
-    question=request.form["question"].lower()
-    sentences=pdf_text.split(".")
+    data = request.get_json()
 
-    best_sentence=""
-    best_score=0
+    query = data["query"]
 
-    for sentence in sentences:
-        score=0
+    answer, sources = generate_answer(query)
 
-        for word in question.split():
-            if word in sentence.lower():
-                score+=1
-        
-        if score > best_score:
-            best_score=score
-            best_sentence=sentence
+    return jsonify({
+        "answer": answer,
+        "sources": sources
+    })
 
-    if best_sentence:
-        return "Answer: " + best_sentence
-    
-    return "Sorry, I couldn't find an answer."
 
 
 
 @app.route("/logout")
 @login_required
 def logout():
+
     logout_user()
-    return redirect("/login")
+    return redirect("/")
 
 
 if __name__ == "__main__":
