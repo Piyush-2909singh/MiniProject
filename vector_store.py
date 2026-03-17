@@ -21,3 +21,20 @@ else:
 
     index = faiss.IndexFlatL2(384)
     metadata = []
+
+
+def add_document(text, source):
+
+    vec = model.encode([text])
+
+    index.add(vec)
+
+    metadata.append({
+        "text": text,
+        "source": source
+    })
+
+    faiss.write_index(index, INDEX_PATH)
+
+    with open(META_PATH,"wb") as f:
+        pickle.dump(metadata,f)
