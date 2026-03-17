@@ -19,3 +19,14 @@ def ingest_document(path):
         if t:
             t = clean_text(t)
             text += t + "\n"
+
+
+# better chunking
+    chunk_size = 300
+
+    for i in range(0, len(text), chunk_size):
+
+        chunk = text[i:i+chunk_size]
+
+        if len(chunk.strip()) > 50:
+            add_document(chunk, path)
