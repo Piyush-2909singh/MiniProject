@@ -1,55 +1,97 @@
-from flask import Flask, redirect, render_template, request, url_for
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask import Flask, render_template, request, redirect, jsonify
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 import os
-from rag import read_pdf
+import sqlite3
 
 
 app = Flask(__name__)
+app.secret_key = "secret123"
 
-
-app.config["SECRET_KEY"] = "secret123"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-
-UPLOAD_FOLDER="uploads"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-db=SQLAlchemy(app)
 
 login_manager=LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"
 
-pdf_text=""
 
-class User(UserMixin, db.Model):
-    id=db.Column(db.Integer,primary_key=True)
-    username=db.Column(db.String(150),nullable=False)
-    password=db.Column(db.String(150),nullable=False)
+os.makedirs("uploads", exist_ok=True)
+
+
+def init_db():
+    conn=sqlite3.connect("users.db")
+    c=conn.cursor()
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+    init_db()
+
+class User(UserMixin):
+
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+
+
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    row = c.fetchone()
+
+    conn.close()
+
+    if row:
+        return User(row[0], row[1], row[2])
+
+    return None
 
 
-@app.route('/')     # yahan se redirect kr dega to login page
+
+
+@app.route('/')     
 def start():
-    return redirect("/login")
+    if current_user.is_authenticated:
+        return render_template("home.html", username=current_user.username)
+
+    return render_template("home.html", username=None)
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method=="POST":
+    if request.method == "POST":
 
-        username=request.form["username"]
-        password=request.form["password"]
+        username = request.form["username"]
+        password = request.form["password"]
 
-        user= User.query.filter_by(username=username,password=password).first()
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
 
-        if user:
+        c.execute(
+            "SELECT * FROM users WHERE username=? AND password=?",
+            (username,password)
+        )
+
+        row = c.fetchone()
+        conn.close()
+
+        if row:
+            user = User(row[0], row[1], row[2])
             login_user(user)
-            return redirect("/home")
+            return redirect("/")
 
     return render_template("login.html")
 
@@ -57,12 +99,20 @@ def login():
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        username=request.form["username"]
-        password=request.form["password"]
 
-        new_user= User(username=username, password=password)
-        db.session.add(new_user)
-        db.session.commit()
+        username = request.form["username"]
+        password = request.form["password"]
+
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
+
+        c.execute(
+            "INSERT INTO users(username,password) VALUES(?,?)",
+            (username,password)
+        )
+
+        conn.commit()
+        conn.close()
 
         return redirect("/login")
 
@@ -70,67 +120,62 @@ def signup():
 
 
 
-@app.route('/home')
-@login_required
-def home():
-    return render_template("index.html")
-
 
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
 def upload():
-    global pdf_text
 
-    file=request.files["pdf"]
+    file = request.files["file"]
 
-    path=os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    if file:
+        file.save("uploads/" + file.filename)
 
-    file.save(path)
+    return redirect("/admin")
 
-    pdf_text=read_pdf(path)
 
-    return "PDF uploaded successfully"
 
+@app.route("/admin")
+@login_required
+def admin():
+
+    return render_template("admin.html")
 
 
 @app.route("/ask", methods=["POST"])
 @login_required
 def ask():
-    question=request.form["question"].lower()
-    sentences=pdf_text.split(".")
+    data = request.get_json()
 
-    best_sentence=""
-    best_score=0
+    query = data["query"]
 
-    for sentence in sentences:
-        score=0
+    answer, sources = generate_answer(query)
 
-        for word in question.split():
-            if word in sentence.lower():
-                score+=1
-        
-        if score > best_score:
-            best_score=score
-            best_sentence=sentence
+    return jsonify({
+        "answer": answer,
+        "sources": sources
+    })
 
-    if best_sentence:
-        return "Answer: " + best_sentence
-    
-    return "Sorry, I couldn't find an answer."
 
 
 
 @app.route("/logout")
 @login_required
 def logout():
+
     logout_user()
-    return redirect("/login")
+    return redirect("/")
+
+
+@app.route("/chat")
+@login_required
+def chat():
+
+    return render_template("chat.html")
+
+
+
 
 
 if __name__ == "__main__":
-
-    with app.app_context():
-        db.create_all()
-
     app.run(debug=True)
 
