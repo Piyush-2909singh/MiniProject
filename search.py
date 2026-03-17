@@ -29,3 +29,10 @@ def search(query, k=3):
     D, I = index.search(query_vec, k)
 
     results = []
+
+    for idx in I[0]:
+
+        if idx < len(metadata):
+            results.append(metadata[idx])
+
+    return results
