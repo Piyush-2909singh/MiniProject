@@ -36,3 +36,6 @@ def search(query, k=3):
             results.append(metadata[idx])
 
     return results
+
+
+    
