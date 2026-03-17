@@ -17,4 +17,15 @@ if os.path.exists(META_PATH):
     metadata = pickle.load(open(META_PATH,"rb"))
 else:
     metadata = []
-    
+
+
+def search(query, k=3):
+
+    if index is None or len(metadata) == 0:
+        return []
+
+    query_vec = model.encode([query])
+
+    D, I = index.search(query_vec, k)
+
+    results = []
