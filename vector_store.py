@@ -38,3 +38,16 @@ def add_document(text, source):
 
     with open(META_PATH,"wb") as f:
         pickle.dump(metadata,f)
+
+def search(query,k=3):
+
+    vec = model.encode([query])
+
+    D,I = index.search(vec,k)
+
+    results=[]
+
+    for i in I[0]:
+
+        if i < len(metadata):
+            results.append(metadata[i])
