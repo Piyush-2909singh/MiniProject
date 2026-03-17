@@ -51,3 +51,6 @@ def search(query,k=3):
 
         if i < len(metadata):
             results.append(metadata[i])
+
+    return results
+
