@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Enterprise Knowledge Assistant</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(120deg, #2d133b 0%, #3a1c4a 50%, #1a0823 100%);
+color:white;
+height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+padding:20px 40px;
+background:rgba(45,19,59,0.95);
+box-shadow:0 2px 12px 0 rgba(60,16,83,0.2);
+}
+
+.main{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(120deg, #2d133b 0%, #3a1c4a 50%, #1a0823 100%);
+}
+
+.chatbox{
+background:rgba(58,28,74,0.98);
+padding:40px;
+border-radius:18px;
+width:700px;
+box-shadow:0 20px 40px 0 rgba(60,16,83,0.4);
+border:1.5px solid #a259ec;
+}
+
+input{
+width:80%;
+padding:12px;
+border-radius:8px;
+border:1.5px solid #a259ec;
+background:rgba(44,20,54,0.95);
+color:#f3e8ff;
+font-size:1.1em;
+margin-bottom:10px;
+transition:border 0.2s;
+}
+input:focus{
+outline:none;
+border:2px solid #d291fa;
+}
+
+button{
+padding:12px 24px;
+background:linear-gradient(90deg,#a259ec 0%,#6d28d9 100%);
+border:none;
+border-radius:8px;
+color:white;
+font-weight:bold;
+font-size:1.1em;
+box-shadow:0 2px 8px 0 rgba(162,89,236,0.15);
+cursor:pointer;
+transition:background 0.2s, box-shadow 0.2s;
+}
+button:hover{
+background:linear-gradient(90deg,#6d28d9 0%,#a259ec 100%);
+box-shadow:0 4px 16px 0 rgba(162,89,236,0.25);
+}
+
+.answer-box{
+margin-top:20px;
+background:rgba(44,20,54,0.95);
+padding:24px;
+border-radius:12px;
+border:1.5px solid #a259ec;
+color:#f3e8ff;
+box-shadow:0 2px 12px 0 rgba(162,89,236,0.08);
+}
+
+</style>
+
+<script>
+
+async function ask(){
+
+let q=document.getElementById("query").value
+
+document.getElementById("answer").innerText="Thinking..."
+
+let res=await fetch("/ask",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({query:q})
+
+})
+
+let data=await res.json()
+
+document.getElementById("answer").innerText=data.answer
+document.getElementById("sources").innerText="Sources: "+data.sources.join(", ")
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+<div>Enterprise Knowledge Assistant</div>
+
+<div>
+{{ current_user.username }}
+<a href="/">Home</a>
+<a href="/logout">Logout</a>
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="chatbox">
+
+<h2>Ask Knowledge Base</h2>
+
+<input id="query" placeholder="Ask question">
+
+<button onclick="ask()">Ask</button>
+
+<div class="answer-box">
+
+<p id="answer"></p>
+
+<p id="sources"></p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- feat(admin): create document upload panel (1) -->
+</body>
+
+</html>
