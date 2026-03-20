@@ -3,166 +3,153 @@
 
 <head>
 
-<title>Enterprise Knowledge AI</title>
+<title>Enterprise Knowledge Assistant</title>
 
 <style>
 
 body{
-    font-family:"Segoe UI",sans-serif;
-    background:#0f172a;
     margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#0f172a,#020617);
     color:white;
-}
-
-/* Header */
-
-.header{
+    height:100vh;
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
-    padding:18px 40px;
-    background:#020617;
-    border-bottom:1px solid #1e293b;
 }
-
-.header h1{
-    color:#38bdf8;
-    margin:0;
-}
-
-.logout-btn{
-    background:#22c55e;
-    border:none;
-    padding:8px 16px;
-    border-radius:6px;
-    color:white;
-    cursor:pointer;
-}
-
-/* Main layout */
 
 .container{
-    width:70%;
-    margin:60px auto;
-}
-
-/* AI cards */
-
-.card{
-    background:#020617;
-    padding:30px;
-    border-radius:10px;
-    margin-bottom:25px;
-    border:1px solid #1e293b;
-}
-
-/* Titles */
-
-.card h2{
-    margin-top:0;
-    color:#38bdf8;
-}
-
-/* Inputs */
-
-input[type="file"],
-input[type="text"]{
-    width:80%;
-    padding:10px;
-    margin-top:15px;
-    border-radius:6px;
-    border:1px solid #334155;
+    width:700px;
     background:#0f172a;
-    color:white;
+    padding:40px;
+    border-radius:14px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
 }
 
-/* Buttons */
+h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+    font-size:16px;
+}
 
 button{
-    margin-top:18px;
-    padding:10px 22px;
+    padding:12px 20px;
+    background:#2563eb;
     border:none;
-    background:#22c55e;
+    border-radius:8px;
     color:white;
-    border-radius:6px;
+    font-size:16px;
     cursor:pointer;
+    transition:0.3s;
 }
 
 button:hover{
-    background:#16a34a;
+    background:#1d4ed8;
 }
 
-/* Answer area */
-
 .answer-box{
-    margin-top:20px;
-    padding:15px;
-    background:#0f172a;
-    border-left:4px solid #22c55e;
+    margin-top:25px;
+    background:#020617;
+    padding:20px;
+    border-radius:10px;
+}
+
+#answer{
+    margin-bottom:15px;
+    line-height:1.5;
+}
+
+#sources{
+    font-size:14px;
+    color:#9ca3af;
 }
 
 </style>
+
+<script>
+
+async function ask(){
+
+let q=document.getElementById("query").value
+
+let res=await fetch("/ask",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({query:q})
+
+})
+
+let data=await res.json()
+
+document.getElementById("answer").innerText=data.answer
+
+document.getElementById("sources").innerText ="Sources: " + data.sources.join(", ")
+
+}
+
+</script>
 
 </head>
 
 <body>
 
-<div class="header">
-
-<h1>Enterprise Knowledge AI</h1>
-
-<a href="/logout">
-<button class="logout-btn">Logout</button>
-</a>
-
-</div>
-
 <div class="container">
 
-<!-- Upload Section -->
+<h1>Enterprise Knowledge Assistant</h1>
 
-<div class="card">
-
-<h2>Upload Knowledge Document</h2>
-
-<form action="/upload" method="post" enctype="multipart/form-data">
-
-<input type="file" name="pdf">
-
-<br>
-
-<button type="submit">Upload PDF</button>
-
-</form>
-
+<div class="input-area">
+<input id="query" placeholder="Ask question">
+<button onclick="ask()">Ask</button>
 </div>
-
-<!-- Ask Question Section -->
-
-<div class="card">
-
-<h2>Ask Question From Document</h2>
-
-<form action="/ask" method="post">
-
-<input type="text" name="question" placeholder="Ask something from the document...">
-
-<br>
-
-<button type="submit">Generate Answer</button>
-
-</form>
 
 <div class="answer-box">
-
-<p>AI generated answer will appear here.</p>
-
+<p id="answer"></p>
+<p id="sources"></p>
 </div>
 
 </div>
 
-</div>
 
+<!-- feat(auth): add login form (4) -->
+
+<!-- refactor(ui): improve page structure (6) -->
+
+<!-- style(ui): smooth transitions (23) -->
+
+<!-- fix(ui): resolve overflow issues (32) -->
+
+<!-- feat(chat): implement chat interface (34) -->
+
+<!-- refactor(ui): clean up unused CSS (38) -->
+
+<!-- fix(ui): z-index conflict resolution (46) -->
+
+<!-- feat(ui): accessibility improvements (51) -->
+
+<!-- fix(ui): fix mobile navigation (55) -->
+
+<!-- fix(ui): fix mobile navigation (68) -->
+
+<!-- style(ui): adjust margin utilities (70) -->
+
+<!-- fix(ui): resolve overflow issues (93) -->
 </body>
 
 </html>

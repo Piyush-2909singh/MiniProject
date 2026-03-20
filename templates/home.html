@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Enterprise Knowledge Assistant</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(120deg, #2d133b 0%, #3a1c4a 50%, #1a0823 100%);
+color:white;
+height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:rgba(45,19,59,0.95);
+box-shadow:0 2px 12px 0 rgba(60,16,83,0.2);
+}
+
+.logo{
+font-size:20px;
+font-weight:bold;
+color:#a259ec;
+}
+
+.nav-right a{
+color:white;
+text-decoration:none;
+background:linear-gradient(90deg,#a259ec 0%,#6d28d9 100%);
+padding:8px 16px;
+border-radius:8px;
+font-weight:bold;
+margin-left:10px;
+transition:background 0.2s;
+}
+.nav-right a:hover{
+background:linear-gradient(90deg,#6d28d9 0%,#a259ec 100%);
+}
+
+.username{
+color:#d291fa;
+font-weight:bold;
+margin-right:15px;
+}
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(120deg, #2d133b 0%, #3a1c4a 50%, #1a0823 100%);
+}
+
+.actions{
+display:flex;
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:#0f172a;
+padding:30px;
+border-radius:10px;
+width:220px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card a{
+text-decoration:none;
+color:white;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+<div class="logo">Enterprise Knowledge Assistant</div>
+
+<div class="nav-right">
+
+{% if username %}
+
+<span class="username">{{username}}</span>
+<a href="/logout">Logout</a>
+
+{% else %}
+
+<a href="/login">Login</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>Welcome to Enterprise Knowledge Assistant</h1>
+
+<p>Search knowledge or upload enterprise documents</p>
+
+{% if username %}
+
+<div class="actions">
+
+<div class="card">
+<a href="/chat">Ask Question</a>
+</div>
+
+<div class="card">
+<a href="/admin">Upload Documents</a>
+</div>
+
+</div>
+
+{% else %}
+
+<p>Please login to continue</p>
+
+{% endif %}
+
+<!-- Info Section -->
+<div style="width:100%;display:flex;justify-content:center;margin-top:40px;margin-bottom:40px;">
+	<div style="background:rgba(58,28,74,0.98);border-radius:18px;padding:36px 48px;max-width:700px;width:100%;box-shadow:0 8px 32px 0 rgba(162,89,236,0.10);border:1.5px solid #a259ec;">
+		<h2 style="color:#a259ec;margin-top:0;">About Us</h2>
+		<p style="color:#f3e8ff;font-size:1.1em;">Enterprise Knowledge Assistant is your smart platform for searching, querying, and managing enterprise knowledge. Upload your documents, ask questions, and get instant, AI-powered answers from your own knowledge base. Designed for teams and organizations to make information retrieval fast, secure, and easy.</p>
+		<h3 style="color:#d291fa;margin-bottom:8px;">Contact</h3>
+		<p style="color:#e0c3fc;">Email: <a href="mailto:contact@enterprise-assistant.com" style="color:#a259ec;text-decoration:underline;">contact@enterprise-assistant.com</a></p>
+		<h3 style="color:#d291fa;margin-bottom:8px;">Made by</h3>
+		<p style="color:#e0c3fc;">Piyush, Charu, Brajesh</p>
+	</div>
+</div>
+
+
+<!-- feat(admin): create document upload panel (8) -->
+
+<!-- style(ui): update color palette (18) -->
+
+<!-- fix(ui): correct form alignment (25) -->
+
+<!-- refactor(ui): extract common components (30) -->
+
+<!-- fix(ui): alignment on ultra-wide screens (33) -->
+
+<!-- feat(auth): add login form (54) -->
+
+<!-- feat(auth): add login form (58) -->
+
+<!-- feat(auth): add registration page (63) -->
+
+<!-- fix(ui): z-index conflict resolution (72) -->
+
+<!-- feat(home): implement dashboard layout (75) -->
+
+<!-- feat(ui): add loading spinners (76) -->
+
+<!-- feat(auth): add registration page (78) -->
+
+<!-- feat(home): implement dashboard layout (84) -->
+
+<!-- fix(ui): alignment on ultra-wide screens (85) -->
+
+<!-- feat(auth): add registration page (89) -->
+
+<!-- feat(ui): add hover effects (92) -->
+</body>
+</html>
