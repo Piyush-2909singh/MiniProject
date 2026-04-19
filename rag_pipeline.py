@@ -1,5 +1,6 @@
 
 import os
+import re
 from search import search
 from transformers import pipeline
 
