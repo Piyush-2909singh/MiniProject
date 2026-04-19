@@ -20,8 +20,7 @@ def ingest_document(path):
             t = clean_text(t)
             text += t + "\n"
 
-
-
+    # better chunking
     chunk_size = 300
 
     for i in range(0, len(text), chunk_size):
