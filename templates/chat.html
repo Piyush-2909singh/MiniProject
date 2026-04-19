@@ -250,12 +250,32 @@ document.getElementById("sources").innerText="Sources: "+data.sources.join(", ")
 
 </head>
 <body>
+    <nav class="navbar">
 
-
-
-
-
-
+    <div class="nav-brand">Enterprise Knowledge Assistant</div>
     
+    <div class="nav-links">
+
+      <span class="username">{{ username }}</span>
+      
+      {% if index_ready %}
+        <span class="status-badge status-ready">Index Ready</span>
+      {% else %}
+        <span class="status-badge status-empty">No Docs Indexed</span>
+      {% endif %}
+      <a href="/">Home</a>
+      <a href="/logout">Logout</a>
+
+
+    </div>
+    
+  </nav>
+
+
+
+
+
+
+
 </body>
 
