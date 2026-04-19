@@ -1,7 +1,7 @@
 
 import os
 import re
-from search import search
+from search import search, has_indexed_documents
 from transformers import pipeline
 
 RELEVANCE_MAX_DISTANCE = 1.45
@@ -10,7 +10,6 @@ generator = pipeline(
     "text-generation",
     model="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 )
-
 
 def generate_answer(question):
 
