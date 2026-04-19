@@ -16,3 +16,27 @@ def ingest_document(path):
     chunks=chunk_text(text)
 
     add_chunks(chunks,path)
+
+
+
+docs = load_documents("data/documents")
+
+all_chunks = []
+metadata = []
+
+for doc in docs:
+
+    chunks = chunk_text(doc["text"])
+
+    for chunk in chunks:
+
+        all_chunks.append(chunk)
+
+        metadata.append({
+            "text": chunk,
+            "source": doc["source"]
+        })
+
+create_vector_store(all_chunks, metadata)
+
+print("Documents indexed successfully")
