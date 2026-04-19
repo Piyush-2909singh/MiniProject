@@ -15,5 +15,13 @@ class User(UserMixin):
         self.password = password
         self.role = role or 'user'
 
+def validate_username(username):
+    return bool(username and re.match(r'^[A-Za-z0-9_]{3,32}$', username))
+
+
+def validate_password(password):
+    return bool(password and len(password) >= 6)
+
+
 
 
