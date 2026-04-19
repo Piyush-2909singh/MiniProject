@@ -268,8 +268,27 @@ document.getElementById("sources").innerText="Sources: "+data.sources.join(", ")
 
 
     </div>
-    
+
   </nav>
+
+
+    <div class="chat-outer">
+        <div id="chat-container" class="chat-container">
+      
+            <div class="message-row">
+                <div class="bubble ai">Hello! Ask me anything from your documents.</div>
+            </div>
+        </div>
+
+        <form class="input-bar" id="chat-form" autocomplete="off" onsubmit="return false;">
+        <div class="input-bar-inner">
+            <input type="text" id="query" placeholder="Ask your question..." autocomplete="off" />
+            <button id="send-btn" type="submit">Send</button>
+      
+        </div>
+
+        </form>
+    </div>
 
 
 
