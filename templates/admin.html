@@ -135,66 +135,71 @@ button:hover {
 
 <body>
 
-<div class="container">
 
-<h1>Admin Panel</h1>
 
-<form action="/upload" method="post" enctype="multipart/form-data">
-
-<input type="file" name="file">
-
-<br>
-
-<button type="submit">Upload PDF</button>
-
-</form>
-
+<div class="navbar">
+  <div>Admin Panel</div>
+  <div>
+    <a href="/">Home</a> |
+    <a href="/logout">Logout</a>
+  </div>
 </div>
 
 
-<!-- feat(auth): add login form (7) -->
 
-<!-- refactor(ui): improve page structure (10) -->
+<div class="container">
+  <div class="panel">
 
-<!-- style(ui): update shadow utilities (11) -->
+    <h2>Upload Documents</h2>
 
-<!-- style(ui): adjust margin utilities (14) -->
+    <form id="upload-form" method="POST" enctype="multipart/form-data">
 
-<!-- refactor(ui): improve page structure (19) -->
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-<!-- feat(ui): create landing page layout (20) -->
+      <div class="file-box">
+        <input type="file" name="file" id="file">
+      </div>
 
-<!-- refactor(ui): optimize inline styles (21) -->
 
-<!-- style(ui): update color palette (22) -->
+      <div class="error" id="file-error" style="color:#e53e3e;font-size:13px;">
+      </div>
 
-<!-- feat(ui): add responsive breakpoints (28) -->
+      <button type="submit">Upload PDF</button>
 
-<!-- style(ui): refine layout spacing (36) -->
+      <div class="loading" id="upload-loading" style="display:none;color:#4f46e5;font-size:13px;">Uploading...</div>
 
-<!-- fix(ui): alignment on ultra-wide screens (42) -->
 
-<!-- fix(ui): correct form alignment (47) -->
+    </form>
 
-<!-- fix(ui): correct padding on mobile (52) -->
 
-<!-- feat(home): implement dashboard layout (53) -->
 
-<!-- feat(ui): add responsive breakpoints (56) -->
 
-<!-- style(ui): update shadow utilities (61) -->
+    <script>
 
-<!-- fix(ui): correct form alignment (67) -->
+    document.getElementById('upload-form').onsubmit = function(e) {
 
-<!-- feat(ui): implement dark mode basics (71) -->
+      let file = document.getElementById('file').files[0];
 
-<!-- style(ui): improve contrast ratio (79) -->
+      document.getElementById('file-error').innerText = '';
 
-<!-- style(ui): adjust font sizes (83) -->
+      if (!file || !file.name.endsWith('.pdf')) {
+        document.getElementById('file-error').innerText = 'Please select a PDF file';
+        e.preventDefault();
+      } else {
+        document.getElementById('upload-loading').style.display = 'block';
+      }
+    };
 
-<!-- fix(ui): correct padding on mobile (91) -->
 
-<!-- style(ui): update color palette (94) -->
+
+    </script>
+
+    <div class="status">
+      Upload your documents to update the knowledge base.
+    </div>
+
+  </div>
+</div>
+
 </body>
-
 </html>
