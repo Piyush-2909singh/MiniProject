@@ -1,4 +1,3 @@
-
 import logging
 from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
@@ -6,8 +5,10 @@ from services.rag_service import get_answer
 from search import has_indexed_documents
 import utils.security
 
+
 chat_bp = Blueprint('chat', __name__)
 logger = logging.getLogger(__name__)
+
 
 @chat_bp.route('/chat')
 @login_required
