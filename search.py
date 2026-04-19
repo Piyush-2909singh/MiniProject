@@ -18,6 +18,8 @@ if os.path.exists(META_PATH):
 else:
     metadata = []
 
+def has_indexed_documents();
+    return index is not None and len(metadata) > 0
 
 def search(query, k=3):
 
