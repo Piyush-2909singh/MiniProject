@@ -1,4 +1,7 @@
 flask
 flask-login
-flask-sqlalchemy
-pymupdf
+faiss-cpu
+sentence-transformers
+transformers
+torch
+pdfplumber
