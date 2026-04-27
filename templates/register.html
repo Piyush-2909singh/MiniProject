@@ -1,139 +1,225 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Register</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(120deg, #2d133b 0%, #3a1c4a 50%, #1a0823 100%);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-.container{
-background:rgba(58,28,74,0.98);
-padding:40px;
-border-radius:18px;
-width:320px;
-box-shadow:0 20px 40px 0 rgba(60,16,83,0.4);
-border:1.5px solid #a259ec;
-text-align:center;
+body {
+  min-height: 100vh;
+  display: flex;
+  background: url("/static/images/Digital document hub design concept.png") no-repeat center center/cover;
+  color: white;
 }
 
-input{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1.5px solid #a259ec;
-background:rgba(44,20,54,0.95);
-color:#f3e8ff;
-font-size:1.1em;
-margin-bottom:15px;
-transition:border 0.2s;
-}
-input:focus{
-outline:none;
-border:2px solid #d291fa;
+.left {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
 }
 
-button{
-width:100%;
-padding:12px;
-background:linear-gradient(90deg,#a259ec 0%,#6d28d9 100%);
-border:none;
-border-radius:8px;
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-box-shadow:0 2px 8px 0 rgba(162,89,236,0.15);
-transition:background 0.2s, box-shadow 0.2s;
-}
-button:hover{
-background:linear-gradient(90deg,#6d28d9 0%,#a259ec 100%);
-box-shadow:0 4px 16px 0 rgba(162,89,236,0.25);
+.box {
+  width: 360px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(20, 30, 60, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  text-align: center;
 }
 
-a{
-color:#a259ec;
-text-decoration:none;
-font-weight:bold;
-}
-a:hover{
-color:#d291fa;
+.box h2 {
+  margin-bottom: 18px;
 }
 
+.flash-messages {
+  margin-bottom: 12px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.flash {
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.flash.error {
+  background: rgba(229, 62, 62, 0.18);
+  color: #fecaca;
+}
+
+.flash.success {
+  background: rgba(16, 185, 129, 0.18);
+  color: #d1fae5;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 25px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+input::placeholder {
+  color: #ddd;
+}
+
+button {
+  width: 65%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  background: white;
+  color: black;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.right {
+  width: 30%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: rgba(10, 15, 30, 0.55);
+  backdrop-filter: blur(18px);
+  border-left: 1px solid rgba(255,255,255,0.15);
+  position: relative;
+}
+
+.right::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4), transparent);
+}
+
+.content {
+  max-width: 320px;
+}
+
+.middle ul {
+  padding-left: 18px;
+}
+
+.middle li {
+  margin-bottom: 8px;
+}
+
+.bottom a {
+  color: #e0e7ff;
+  text-decoration: none;
+}
+
+.bottom a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .left {
+    width: 100%;
+    padding: 24px 12px;
+  }
+
+  .right {
+    display: none;
+  }
+}
 </style>
-
 </head>
-
 <body>
+<div class="left">
+  <div class="box">
+    <h2>Create Account</h2>
 
-<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-<h2>Register</h2>
+    <form method="POST" action="{{ url_for('auth.register') }}" autocomplete="off">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="text" placeholder="Username" name="username" required>
+      <input type="password" placeholder="Password" name="password" required>
+      <button type="submit">Register</button>
 
-<form method="POST">
-
-<input name="username" placeholder="username" required>
-
-<input type="password" name="password" placeholder="password" required>
-
-<button type="submit">Register</button>
-
-</form>
-
-<br>
-
-<a href="/login">Login</a>
-
+      <p style="margin-top:15px; font-size:13px;">
+        Already have an account? <a href="/login" style="color:white;">Login</a>
+      </p>
+    </form>
+  </div>
 </div>
 
+<div class="right">
+  <div class="content">
+    <div class="top">
+      <h2>About Us</h2>
+    </div>
+    <br>
 
-<!-- fix(ui): fix mobile navigation (3) -->
+    <div class="middle">
+      <p>
+        Enterprise Knowledge Assistant helps you organize, search,
+        and interact with your documents using AI-powered insights.
+      </p>
+      <br>
 
-<!-- refactor(ui): extract common components (12) -->
+      <ul>
+        <li>Upload and manage documents</li>
+        <li>Ask questions instantly</li>
+        <li>Get fast, intelligent responses</li>
+      </ul>
+    </div>
 
-<!-- feat(ui): add responsive breakpoints (13) -->
+    <br><br><br><br><br><br><br><br><br>
 
-<!-- style(ui): improve button styling (15) -->
-
-<!-- fix(ui): z-index conflict resolution (17) -->
-
-<!-- fix(ui): alignment on ultra-wide screens (24) -->
-
-<!-- style(ui): adjust font sizes (31) -->
-
-<!-- style(ui): smooth transitions (37) -->
-
-<!-- style(ui): refine layout spacing (39) -->
-
-<!-- fix(ui): fix mobile navigation (40) -->
-
-<!-- feat(ui): add toast notifications structure (45) -->
-
-<!-- style(ui): update color palette (57) -->
-
-<!-- feat(home): implement dashboard layout (59) -->
-
-<!-- style(ui): improve button styling (60) -->
-
-<!-- style(ui): adjust margin utilities (62) -->
-
-<!-- feat(auth): add login form (65) -->
-
-<!-- refactor(ui): extract common components (80) -->
-
-<!-- feat(ui): add hover effects (90) -->
-
-<!-- feat(ui): implement dark mode basics (97) -->
-
-<!-- fix(ui): correct padding on mobile (99) -->
+    <div class="bottom">
+      Connect with us<br>
+      <a href="#">docshub@business.in</a>
+      <br>
+      <a href="#">+91 1415366003</a>
+      <br><br><br>
+      <p class="dev">Built by <br>
+        <a href="#">@ piyush</a>
+        <br>
+        <a href="#">@ charu</a>
+        <br>
+        <a href="#">@ brajesh</a>
+      </p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
