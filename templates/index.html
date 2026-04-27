@@ -1,155 +1,63 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<title>Index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Enterprise Knowledge Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-
-body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg,#0f172a,#020617);
-    color:white;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/static/images/ask.png") no-repeat center center/cover;
+  position: relative;
+  color: white;
 }
 
-.container{
-    width:700px;
-    background:#0f172a;
-    padding:40px;
-    border-radius:14px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15,23,42,0.85);
 }
 
-h1{
-    text-align:center;
-    margin-bottom:30px;
+
+.box {
+  position: relative;
+  z-index: 2;
+  width: 500px;
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.08);
+  text-align: center;
 }
 
-.input-area{
-    display:flex;
-    gap:10px;
+input {
+  width: 80%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  margin-top: 20px;
 }
 
-input{
-    flex:1;
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    font-size:16px;
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background: #6366f1;
+  color: white;
 }
-
-button{
-    padding:12px 20px;
-    background:#2563eb;
-    border:none;
-    border-radius:8px;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#1d4ed8;
-}
-
-.answer-box{
-    margin-top:25px;
-    background:#020617;
-    padding:20px;
-    border-radius:10px;
-}
-
-#answer{
-    margin-bottom:15px;
-    line-height:1.5;
-}
-
-#sources{
-    font-size:14px;
-    color:#9ca3af;
-}
-
 </style>
-
-<script>
-
-async function ask(){
-
-let q=document.getElementById("query").value
-
-let res=await fetch("/ask",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({query:q})
-
-})
-
-let data=await res.json()
-
-document.getElementById("answer").innerText=data.answer
-
-document.getElementById("sources").innerText ="Sources: " + data.sources.join(", ")
-
-}
-
-</script>
-
 </head>
 
 <body>
 
-<div class="container">
-
-<h1>Enterprise Knowledge Assistant</h1>
-
-<div class="input-area">
-<input id="query" placeholder="Ask question">
-<button onclick="ask()">Ask</button>
-</div>
-
-<div class="answer-box">
-<p id="answer"></p>
-<p id="sources"></p>
-</div>
-
-</div>
-
-
-<!-- feat(auth): add login form (4) -->
-
-<!-- refactor(ui): improve page structure (6) -->
-
-<!-- style(ui): smooth transitions (23) -->
-
-<!-- fix(ui): resolve overflow issues (32) -->
-
-<!-- feat(chat): implement chat interface (34) -->
-
-<!-- refactor(ui): clean up unused CSS (38) -->
-
-<!-- fix(ui): z-index conflict resolution (46) -->
-
-<!-- feat(ui): accessibility improvements (51) -->
-
-<!-- fix(ui): fix mobile navigation (55) -->
-
-<!-- fix(ui): fix mobile navigation (68) -->
-
-<!-- style(ui): adjust margin utilities (70) -->
-
-<!-- fix(ui): resolve overflow issues (93) -->
-</body>
-
-</html>
+<div class="box">
