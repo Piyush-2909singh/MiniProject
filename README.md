@@ -1,80 +1,94 @@
-## Enterprise Knowledge Intelligence Platform using RAG
+# Enterprise Knowledge Assistant
 
-This project is an enterprise knowledge assistant platform that leverages Retrieval-Augmented Generation (RAG) to provide intelligent, context-aware answers to user queries using both internal documents and uploaded files. It features user authentication, document ingestion, semantic search, and a chat interface powered by a language model.
+Flask-based RAG application with authentication, RBAC, document ingestion, semantic search (FAISS), and chat UI with citations.
 
----
+## Features
+- Authentication with role-based access control (RBAC)
+- PDF ingestion with metadata (document, source, uploaded_by, timestamp, category)
+- Semantic search (FAISS) with strict grounding and relevance filtering
+- RAG chat with grouped source citations
+- Security hardening: CSRF, rate limiting, security headers, input validation
+- Cloud-native config via environment variables
 
-### Features
-- **User Authentication:** Secure login and registration system using Flask and SQLite.
-- **Admin Panel:** Upload and manage documents (PDF/TXT) for knowledge ingestion.
-- **Document Ingestion:** Extracts and cleans text from uploaded documents, splits into chunks, and stores semantic vectors.
-- **Semantic Search:** Uses FAISS and Sentence Transformers for fast, relevant document retrieval.
-- **RAG Chatbot:** Answers user questions by combining retrieved context with a language model (TinyLlama).
-- **Modern UI:** Responsive, dark-themed web interface for chat, admin, and authentication.
+## Requirements
+- Python 3.10+ recommended (venv)
+- Windows, macOS, or Linux
 
----
+## Setup (Local)
+1. Create and activate a virtual environment.
+2. Install dependencies:
+   - `pip install -r requirements.txt`
+3. Create a `.env` file (optional but recommended):
+   - `SECRET_KEY=your-secret`
+   - `DATABASE_PATH=./database/users.db`
+   - `UPLOAD_FOLDER=./uploads`
+   - `MAX_CONTENT_LENGTH=5242880`
 
-### File Structure
+## Run
+- Development:
+  - `python app.py`
+- Production (gunicorn):
+  - `gunicorn -w 2 -b 0.0.0.0:5000 app:create_app()`
 
+## Docker
+Build:
+- `docker build -t enterprise-knowledge-assistant .`
+
+Run:
+- `docker run -p 5000:5000 --env-file .env enterprise-knowledge-assistant`
+
+## Configuration
+Configuration is loaded from `config.py` using environment variables with defaults:
+- `SECRET_KEY`
+- `DATABASE_PATH`
+- `UPLOAD_FOLDER`
+- `MAX_CONTENT_LENGTH`
+
+## Key Paths
+- `uploads/` - Uploaded documents
+- `vector_db/` - FAISS index and metadata
+- `database/users.db` - SQLite user database
+
+## Roles
+- Default role: `user`
+- Admin role: `admin`
+- Admin-only route: `/admin`
+
+## Ingestion
+- Upload PDFs via `/admin`
+- Each chunk is stored with:
+  - text
+  - document
+  - source
+  - uploaded_by
+  - timestamp
+  - category
+
+## Chat API
+POST `/chat` or `/ask`
+
+Request:
 ```
-├── app.py                # Main Flask app (routes, auth, upload, chat)
-├── ingestion.py          # PDF/TXT ingestion and chunking logic
-├── rag_pipeline.py       # RAG pipeline: search + LLM answer generation
-├── search.py             # Semantic search using FAISS and embeddings
-├── vector_store.py       # Vector DB management (add/search vectors)
-├── documents.txt         # Example internal knowledge base
-├── requirements.txt      # Python dependencies
-├── uploads/              # Uploaded documents (PDF/TXT)
-├── templates/            # HTML templates (chat, admin, login, etc.)
-│   ├── admin.html
-│   ├── chat.html
-│   ├── home.html
-│   ├── index.html
-│   ├── login.html
-│   └── register.html
-└── vector_db/            # FAISS index and metadata (auto-created)
+{ "message": "your question" }
 ```
 
----
+Response:
+```
+{
+  "answer": "...",
+  "sources": [
+    {
+      "document": "file.pdf",
+      "snippets": ["...", "..."]
+    }
+  ]
+}
+```
 
-### Setup Instructions
+## Tests
+Run:
+- `pytest -q`
 
-1. **Clone the repository**
-2. **Install dependencies:**
-	```bash
-	pip install -r requirements.txt
-	```
-3. **(Optional) Download or place PDF/TXT files in `uploads/`**
-4. **Run the application:**
-	```bash
-	python app.py
-	```
-5. **Access the app:** Open [http://localhost:5000](http://localhost:5000) in your browser.
-
----
-
-### Usage
-- **Sign up / Log in** to access the platform.
-- **Admin users** can upload documents via the Admin Panel.
-- **Ask questions** in the chat interface; the system retrieves relevant context and generates answers.
-
----
-
-### Dependencies
-- Flask, Flask-Login
-- flask-sqlalchemy
-- pymupdf (PDF extraction)
-- faiss, sentence-transformers
-- transformers (TinyLlama model)
-
----
-
-### Notes
-- Uploaded documents are chunked and indexed for semantic search.
-- The RAG pipeline combines search results with a language model for accurate, context-aware answers.
-- Example knowledge is provided in `documents.txt`.
-
----
-
-### License
-This project is for educational and demonstration purposes.
+## Notes
+- For production rate limiting, configure a persistent limiter backend.
+- Set `HF_TOKEN` to avoid Hugging Face download throttling.
