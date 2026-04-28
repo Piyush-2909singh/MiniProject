@@ -1,21 +1,15 @@
-import sqlite3
 import os
+from utils.db import execute_db
 
-os.makedirs('data', exist_ok=True)
+os.makedirs("database", exist_ok=True)
 
-conn = sqlite3.connect('data/app.db')
-c = conn.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE ,
-    password TEXT ,
-    role 
+execute_db("""
+CREATE TABLE IF NOT EXISTS users(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+username TEXT UNIQUE,
+password TEXT,
+role TEXT
 )
-""")
+""", commit=True)
 
-conn.commit()
-conn.close()
-
-print("Database created and users table initialized.")
+print("Database created successfully")

@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-NDEX_PATH = "vector_db/index.faiss"
+INDEX_PATH = "vector_db/index.faiss"
 META_PATH = "vector_db/metadata.pkl"
 
 if os.path.exists(INDEX_PATH):
@@ -32,18 +32,20 @@ def search(query, k=3, max_distance=None, include_distance=False):
 
     results = []
 
-    for dist,idx in zip(D[0], I[0]):
-        if idx < len(metadata):
+    for dist, idx in zip(D[0], I[0]):
+        if idx >= len(metadata):
             continue
 
-        distance = float(dist) 
-        if max_distance is not None and dist > max_distance:
+        distance = float(dist)
+        if max_distance is not None and distance > max_distance:
             continue
-        
-        item =  dict(metadata[idx])
+
+        item = dict(metadata[idx])
+        source = item.get("source") or ""
+        if "document" not in item:
+            item["document"] = os.path.basename(source) if source else "Unknown"
         if include_distance:
-            item["distance"] = distance
+            item["_distance"] = distance
         results.append(item)
 
     return results
-

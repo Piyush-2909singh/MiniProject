@@ -17,8 +17,6 @@ def ingest_document(path):
 
     add_chunks(chunks,path)
 
-
-
 docs = load_documents("data/documents")
 
 all_chunks = []

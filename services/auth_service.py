@@ -1,92 +1,41 @@
-import sqlite3
-from flask_login import UserMixin
-from utils.config import Config
-from flask_bcrypt import Bcrypt
-import re
 
-bcrypt = Bcrypt()
+import logging
+from flask import Blueprint, render_template, request, jsonify
+from flask_login import login_required, current_user
+from markupsafe import escape
+from services.rag_service import get_answer
+from search import has_indexed_documents
+from utils.validators import validate_text
+import utils.security
 
-class User(UserMixin):
+chat_bp = Blueprint('chat', __name__)
+logger = logging.getLogger(__name__)
 
-    def __init__(self, id, username, password, role='user'):
-        self.id = id
+@chat_bp.route('/chat')
+@login_required
+def chat():
+    return render_template(
+        'chat.html',
+        username=current_user.username,
+        index_ready=has_indexed_documents()
+    )
 
-        self.username = username
-        self.password = password
-        self.role = role or 'user'
-
-def validate_username(username):
-    return bool(username and re.match(r'^[A-Za-z0-9_]{3,32}$', username))
-
-
-def validate_password(password):
-    return bool(password and len(password) >= 6)
-
-
-def authenticate_user(username, password):
-
-
-    if not validate_username(username) or not validate_password(password):
-        return None
-    
-    conn = sqlite3.connect(Config.DB_PATH)
-    c = conn.cursor()
-
-
-    c.execute("SELECT * FROM users WHERE username=?", (username,))
-    row = c.fetchone()
-    conn.close()
-
-
-    if row and bcrypt.check_password_hash(row[2], password):
-        return User(row[0], row[1], row[2], row[3] if len(row) > 3 else 'user')
-    return None
-
-
-
-
-
-def authenticate_user(username, password):
-
-
-    if not validate_username(username) or not validate_password(password):
-        return None
-    
-    conn = sqlite3.connect(Config.DB_PATH)
-    c = conn.cursor()
-
-
-    c.execute("SELECT * FROM users WHERE username=?", (username,))
-    row = c.fetchone()
-    conn.close()
-
-
-    if row and bcrypt.check_password_hash(row[2], password):
-        return User(row[0], row[1], row[2], row[3] if len(row) > 3 else 'user')
-    return None
-
-
-
-
-def register_user(username, password):
-
-    if not validate_username(username):
-        return False, "Invalid username. Use 3-32 letters, numbers, or underscores."
-    if not validate_password(password):
-
-        return False, "Password must be at least 6 characters."
-    pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-    
-    
+@chat_bp.route('/chat', methods=['POST'])
+@chat_bp.route('/ask', methods=['POST'])
+@login_required
+@utils.security.limiter.limit("10 per minute")
+def ask():
     try:
+        data = request.get_json(silent=True) or {}
+        logger.info("Chat POST received with keys=%s", list(data.keys()))
 
-        conn = sqlite3.connect(Config.DB_PATH)
-        c = conn.cursor()
-        c.execute("INSERT INTO users(username, password, role) VALUES (?, ?, ?)", (username, pw_hash, 'user'))
-        conn.commit()
-        conn.close()
-        return True, "Registered successfully"
-    
-    
-    except sqlite3.IntegrityError:
-        return False, "Username already exists"
+        raw_query = data.get('message') or data.get('query') or ''
+        query = str(escape(raw_query)).strip()
+        if not validate_text(query, max_len=500):
+            return jsonify({'error': 'Invalid input.'}), 400
+
+        answer, sources = get_answer(query)
+        return jsonify({'answer': answer, 'sources': sources})
+    except Exception as e:
+        logger.exception("Chat processing failed: %s", e)
+        return jsonify({'error': 'An error occurred while processing your request.'}), 500

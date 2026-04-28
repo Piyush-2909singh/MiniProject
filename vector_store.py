@@ -23,36 +23,37 @@ else:
     metadata = []
 
 
-def add_document(text, source):
-
-    vec = model.encode([text])
-
-    index.add(vec)
-
-    metadata.append({
-        "text": text,
-        "source": source
-    })
-
-    faiss.write_index(index, INDEX_PATH)
-
-    with open(META_PATH,"wb") as f:
-        pickle.dump(metadata,f)
+def add_document(text, source, document=None, uploaded_by=None, timestamp=None, category="general"):
+    try:
+        vec = model.encode([text])
+        index.add(vec)
+        if not document:
+            document = os.path.basename(source) if source else "Unknown"
+        metadata.append({
+            "text": text,
+            "document": document,
+            "source": source,
+            "uploaded_by": uploaded_by or "unknown",
+            "timestamp": timestamp,
+            "category": category or "general"
+        })
+        faiss.write_index(index, INDEX_PATH)
+        with open(META_PATH, "wb") as f:
+            pickle.dump(metadata, f)
+        return True
+    except Exception as e:
+        print("Vector Store Error:", e)
+        return False
 
 def search(query,k=3):
-
-    vec = model.encode([query])
-
-    D,I = index.search(vec,k)
-
-    results=[]
-
-    for i in I[0]:
-
-        if i < len(metadata):
-            results.append(metadata[i])
-
-    return results
-
-
-
+    try:
+        vec = model.encode([query])
+        D, I = index.search(vec, k)
+        results = []
+        for i in I[0]:
+            if i < len(metadata):
+                results.append(metadata[i])
+        return results
+    except Exception as e:
+        print("Vector Store Error:", e)
+        return []

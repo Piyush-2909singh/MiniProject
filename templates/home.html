@@ -22,6 +22,7 @@ body {
   color: white;
 }
 
+/* Overlay */
 body::before {
   content: "";
   position: absolute;
@@ -30,7 +31,7 @@ body::before {
   z-index: 0;
 }
 
-
+/* Navbar */
 .navbar {
   position: relative;
   z-index: 2;
@@ -49,16 +50,12 @@ body::before {
   margin-left: 15px;
 }
 
-
-
-
 .username {
   margin-right: 10px;
   color: #c7d2fe;
 }
 
-
-
+/* Center Container */
 .container {
   position: relative;
   z-index: 2;
@@ -69,9 +66,7 @@ body::before {
   padding: 40px 20px;
 }
 
-
-
-
+/* Glass Card */
 .card {
   width: 650px;
   padding: 40px;
@@ -94,8 +89,7 @@ body::before {
   margin-bottom: 30px;
 }
 
-
-
+/* Action Cards */
 .actions {
   display: flex;
   gap: 20px;
@@ -122,10 +116,7 @@ body::before {
   margin-bottom: 10px;
 }
 
-
-
-
-
+/* INFO SECTION */
 .info-section {
   margin-top: 40px;
 }
@@ -164,10 +155,7 @@ body::before {
   color: #c7d2fe;
 }
 
-
-
-
-
+/* Mobile */
 @media (max-width: 768px) {
   .card {
     width: 95%;
@@ -182,8 +170,8 @@ body::before {
 
 <body>
 
-
-	<div class="navbar">
+<!-- NAVBAR -->
+<div class="navbar">
   <div>Enterprise Knowledge Assistant</div>
 
   <div>
@@ -197,8 +185,7 @@ body::before {
   </div>
 </div>
 
-
-
+<!-- MAIN -->
 <div class="container">
   <div class="card">
 
@@ -222,9 +209,8 @@ body::before {
       <h1>Welcome</h1>
       <p>Please login or register to continue.</p>
 
-
-
-	  <div class="info-section">
+      <!-- INFO SECTION ONLY WHEN NOT LOGGED IN -->
+      <div class="info-section">
         <div class="info-box">
 
           <h2>About Us</h2>

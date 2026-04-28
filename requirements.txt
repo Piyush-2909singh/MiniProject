@@ -1,7 +1,11 @@
 flask
 flask-login
+flask-cors
+python-dotenv
 faiss-cpu
 sentence-transformers
 transformers
 torch
 pdfplumber
+gunicorn
+pytest

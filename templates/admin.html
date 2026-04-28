@@ -7,10 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-
-
 <style>
-
 * {
   margin: 0;
   padding: 0;
@@ -28,6 +25,7 @@ body {
   color: white;
 }
 
+/* Overlay */
 body::before {
   content: "";
   position: absolute;
@@ -36,7 +34,7 @@ body::before {
   z-index: 0;
 }
 
-
+/* Navbar */
 .navbar {
   position: relative;
   z-index: 2;
@@ -50,7 +48,7 @@ body::before {
   text-decoration: none;
 }
 
-
+/* Center Container */
 .container {
   position: relative;
   z-index: 2;
@@ -60,6 +58,7 @@ body::before {
   align-items: center;
 }
 
+/* Glass Panel */
 .panel {
   width: 500px;
   padding: 40px;
@@ -74,29 +73,14 @@ body::before {
   text-align: center;
 }
 
-input{
-margin-top:20px;
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1.5px solid #a259ec;
-background:rgba(44,20,54,0.95);
-color:#f3e8ff;
-font-size:1.1em;
-transition:border 0.2s;
-}
-
-
 .panel h2 {
   margin-bottom: 25px;
 }
 
-
+/* File Input */
 .file-box {
   margin-bottom: 20px;
 }
-
-
 
 input[type="file"] {
   width: 100%;
@@ -107,7 +91,7 @@ input[type="file"] {
   color: white;
 }
 
-
+/* Button */
 button {
   padding: 12px 30px;
   border-radius: 25px;
@@ -118,11 +102,11 @@ button {
   transition: 0.3s;
 }
 
-
 button:hover {
   transform: translateY(-2px);
 }
 
+/* Status box */
 .status {
   margin-top: 20px;
   font-size: 14px;
@@ -130,13 +114,11 @@ button:hover {
 }
 
 </style>
-
 </head>
 
 <body>
 
-
-
+<!-- NAVBAR -->
 <div class="navbar">
   <div>Admin Panel</div>
   <div>
@@ -145,43 +127,26 @@ button:hover {
   </div>
 </div>
 
-
-
+<!-- MAIN -->
 <div class="container">
   <div class="panel">
 
     <h2>Upload Documents</h2>
 
+
     <form id="upload-form" method="POST" enctype="multipart/form-data">
-
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
       <div class="file-box">
         <input type="file" name="file" id="file">
       </div>
-
-
-      <div class="error" id="file-error" style="color:#e53e3e;font-size:13px;">
-      </div>
-
+      <div class="error" id="file-error" style="color:#e53e3e;font-size:13px;"></div>
       <button type="submit">Upload PDF</button>
-
       <div class="loading" id="upload-loading" style="display:none;color:#4f46e5;font-size:13px;">Uploading...</div>
-
-
     </form>
-
-
-
-
     <script>
-
     document.getElementById('upload-form').onsubmit = function(e) {
-
       let file = document.getElementById('file').files[0];
-
       document.getElementById('file-error').innerText = '';
-
       if (!file || !file.name.endsWith('.pdf')) {
         document.getElementById('file-error').innerText = 'Please select a PDF file';
         e.preventDefault();
@@ -189,9 +154,6 @@ button:hover {
         document.getElementById('upload-loading').style.display = 'block';
       }
     };
-
-
-
     </script>
 
     <div class="status">
