@@ -59,6 +59,8 @@ def admin():
             if not success:
                 flash('An error occurred during file processing.', 'error')
                 return render_template('admin.html'), 500
+            from search import reload_index
+            reload_index()
             flash('File uploaded and indexed successfully!', 'success')
         except Exception as e:
             logger.error(f"File upload failed: {e}")
