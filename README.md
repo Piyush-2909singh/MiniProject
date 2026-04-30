@@ -23,6 +23,7 @@ Flask-based RAG application with authentication, RBAC, document ingestion, seman
    - `DATABASE_PATH=./database/users.db`
    - `UPLOAD_FOLDER=./uploads`
    - `MAX_CONTENT_LENGTH=5242880`
+  - `VECTOR_DB_DIR=./vector_db`
 
 ## Run
 - Development:
@@ -43,10 +44,11 @@ Configuration is loaded from `config.py` using environment variables with defaul
 - `DATABASE_PATH`
 - `UPLOAD_FOLDER`
 - `MAX_CONTENT_LENGTH`
+- `VECTOR_DB_DIR`
 
 ## Key Paths
 - `uploads/` - Uploaded documents
-- `vector_db/` - FAISS index and metadata
+- `vector_db/` - FAISS index and metadata (override with `VECTOR_DB_DIR`)
 - `database/users.db` - SQLite user database
 
 ## Roles
