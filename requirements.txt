@@ -1,11 +1,16 @@
 flask
 flask-login
 flask-cors
+flask-bcrypt
+flask-wtf
+flask-limiter
 python-dotenv
 faiss-cpu
 sentence-transformers
 transformers
 torch
 pdfplumber
+pypdf
 gunicorn
 pytest
+
