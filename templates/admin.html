@@ -113,6 +113,55 @@ button:hover {
   color: #cbd5f5;
 }
 
+.flash-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flash {
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.flash.success {
+  color: #86efac;
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.flash.error {
+  color: #fecaca;
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.cta-row {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.cta-link {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  color: #e0e7ff;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.cta-link:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.18);
+}
+
 </style>
 </head>
 
@@ -143,6 +192,15 @@ button:hover {
       <button type="submit">Upload PDF</button>
       <div class="loading" id="upload-loading" style="display:none;color:#4f46e5;font-size:13px;">Uploading...</div>
     </form>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <div class="flash-list">
+          {% for category, message in messages %}
+            <div class="flash {{ category|e }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <script>
     document.getElementById('upload-form').onsubmit = function(e) {
       let file = document.getElementById('file').files[0];
@@ -158,6 +216,10 @@ button:hover {
 
     <div class="status">
       Upload your documents to update the knowledge base.
+    </div>
+
+    <div class="cta-row">
+      <a class="cta-link" href="/chat">Ask questions</a>
     </div>
 
   </div>
