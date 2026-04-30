@@ -8,15 +8,25 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 INDEX_PATH = "vector_db/index.faiss"
 META_PATH = "vector_db/metadata.pkl"
 
-if os.path.exists(INDEX_PATH):
-    index = faiss.read_index(INDEX_PATH)
-else:
-    index = None
+index = None
+metadata = []
 
-if os.path.exists(META_PATH):
-    metadata = pickle.load(open(META_PATH,"rb"))
-else:
-    metadata = []
+def _load_index():
+    global index, metadata
+    if os.path.exists(INDEX_PATH):
+        index = faiss.read_index(INDEX_PATH)
+    else:
+        index = None
+    if os.path.exists(META_PATH):
+        with open(META_PATH, "rb") as f:
+            metadata = pickle.load(f)
+    else:
+        metadata = []
+
+_load_index()
+
+def reload_index():
+    _load_index()
 
 def has_indexed_documents():
     return index is not None and len(metadata) > 0
