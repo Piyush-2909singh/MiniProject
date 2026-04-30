@@ -14,4 +14,9 @@ class Config:
         os.environ.get("MAX_CONTENT_LENGTH", 5 * 1024 * 1024)
     )
 
+    VECTOR_DB_DIR = os.environ.get(
+        "VECTOR_DB_DIR",
+        os.path.join(os.getcwd(), "vector_db")
+    )
+
     DB_PATH = DATABASE_PATH
