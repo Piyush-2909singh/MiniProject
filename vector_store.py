@@ -2,13 +2,15 @@ import faiss
 import pickle
 import os
 from sentence_transformers import SentenceTransformer
+from config import Config
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-INDEX_PATH = "vector_db/index.faiss"
-META_PATH = "vector_db/metadata.pkl"
+VECTOR_DB_DIR = Config.VECTOR_DB_DIR
+INDEX_PATH = os.path.join(VECTOR_DB_DIR, "index.faiss")
+META_PATH = os.path.join(VECTOR_DB_DIR, "metadata.pkl")
 
-os.makedirs("vector_db", exist_ok=True)
+os.makedirs(VECTOR_DB_DIR, exist_ok=True)
 
 if os.path.exists(INDEX_PATH):
 
