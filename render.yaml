@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: enterprise-knowledge-assistant
+    env: docker
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000
